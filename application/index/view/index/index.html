@@ -1,0 +1,137 @@
+
+{include file="public/head,public/nav"}
+
+
+    <div class="container">
+        <div class="top-container">
+            <div class="mid-area">
+                <div class="slide-holder" id="slide-holder">
+                    <a href="#" class="slide-prev"><i class="slide-arrow-left"></i></a>
+                    <a href="#" class="slide-next"><i class="slide-arrow-right"></i></a>
+                    <ul class="slideshow">
+                        <li><a href="" class="item-large"><img class="ad-pic" src="/upload/20170219/datu.jpg" /></a></li>
+                        <li><a href="" class="item-large"><img class="ad-pic" src="/upload/20170219/datu.jpg" /></a></li>
+                    </ul>
+                </div>
+                <div class="list-container">
+                    
+                </div>
+            </div>
+        </div>
+        <div class="right-sidebar">
+            <div class="right-ad">
+                <ul class="slidepic">
+                    <li><a><img src="/upload/20170219/ads.jpg" width="259px" /></a></li>
+                </ul>
+            </div>
+            
+        </div>
+        <div class="content-container">
+            <div class="no-recom-container">
+                <div class="floor-content-start">
+                    
+                    <div class="floor-content">
+                        <div class="floor-header">
+                            <h3>美食推荐</h3>
+                            <ul class="reco-words">
+                                {volist name="meishicates" id="vo"}
+                                <li><a href="{:url('lists/index', ['id'=>$vo.id])}" target="_blank">{$vo.name}</a></li>
+                                {/volist}
+
+                                <li><a class="no-right-border no-right-padding" target="_blank" href="{:url('lists/index', ['id'=>1])}">全部<span class="all-cate-arrow"></span></a></li>
+                            </ul>
+                        </div>
+                        <ul class="itemlist eight-row-height">
+                            {if condition="$datas"}
+                                {volist name="datas" id="vo"}
+                                <li class="j-card">
+                                    <a>
+                                        <div class="imgbox">
+                                            <ul class="marketing-label-container">
+                                                <li class="marketing-label marketing-free-appoint"></li>
+                                            </ul>
+                                            <div class="range-area">
+                                                <div class="range-bg"></div>
+                                                <div class="range-inner">
+
+                                                </div>
+                                            </div>
+                                            <div class="borderbox">
+                                                <img src="{$vo.image}" />
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <div class="contentbox">
+                                        <a href="{:url('detail/index', ['id'=>$vo.id])}" target="_blank">
+                                            <div class="header">
+                                                <h4 class="title ">【{$vo.location_ids|countLocation}店通用】</h4>
+                                            </div>
+                                            <p>{$vo.name}</p>
+                                        </a>
+                                        <div class="add-info"></div>
+                                        <div class="pinfo">
+                                            <span class="price"><span class="moneyico">¥</span>{$vo.current_price}</span>
+                                            <span class="ori-price">价值<span class="price-line">¥<span>{$vo.origin_price}</span></span></span>
+                                        </div>
+                                        <div class="footer">
+                                            <span class="sold">已售{$vo.buy_count}</span>
+                                            <div class="bottom-border"></div>
+                                        </div>
+                                    </div>
+                                </li>
+                                {/volist}
+                            {else /}
+                                <span style="color:red;font-size:24px;">该城市下没有此分类数据 </span>
+                            {/if}
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-content">
+        <div class="copyright-info">
+            
+        </div>
+    </div>
+
+    <script>
+        var width = 800 * $("#slide-holder ul li").length;
+        $("#slide-holder ul").css({width: width + "px"});
+
+        //轮播图自动轮播
+        var time = setInterval(moveleft,50000000);
+
+        //轮播图左移
+        function moveleft(){
+            $("#slide-holder ul").animate({marginLeft: "-737px"},600, function () {
+                $("#slide-holder ul li").eq(0).appendTo($("#slide-holder ul"));
+                $("#slide-holder ul").css("marginLeft","0px");
+            });
+        }
+
+        //轮播图右移
+        function moveright(){
+            $("#slide-holder ul").css({marginLeft: "-737px"});
+            $("#slide-holder ul li").eq(($("#slide-holder ul li").length)-1).prependTo($("#slide-holder ul"));
+            $("#slide-holder ul").animate({marginLeft: "0px"},600);
+        }
+
+        //右滑箭头点击事件
+        $(".slide-next").click(function () {
+            clearInterval(time);
+            moveright();
+            time = setInterval(moveleft,5000);
+        });
+
+        //左滑箭头点击事件
+        $(".slide-prev").click(function () {
+            clearInterval(time);
+            moveleft();
+            time = setInterval(moveleft,5000);
+        });
+    </script>
+</body>
+</html>
